@@ -1,19 +1,3 @@
-"""
-Copyright (c) 2020 Keitaro AB
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
-
 import os
 import sys
 import subprocess
@@ -109,9 +93,6 @@ def create_db(db_params):
                     db_params.db_name + ' TO "' +
                     db_params.db_user.split("@")[0] + '"')
         if is_pg_buffercache_enabled(db_params) >= 1:
-            # FIXME: This is a known issue with pg_buffercache access
-            # For more info check this thread:
-            # https://www.postgresql.org/message-id/21009351582737086%40iva6-22e79380f52c.qloud-c.yandex.net
             print("Granting privileges on pg_monitor to " +
                   db_params.db_user.split("@")[0])
             cur.execute('GRANT "pg_monitor" TO "' + db_params.db_user.split("@")[0] + '"')
@@ -158,7 +139,7 @@ def set_datastore_permissions(datastore_rw_params, datastore_ro_params, sql):
         if is_pg_buffercache_enabled(datastore_rw_params) >= 1:
             print("Granting privileges on pg_monitor to " +
                   datastore_ro_params.db_user.split("@")[0])
-            cur.execute('GRANT ALL PRIVILEGES ON TABLE pg_monitor TO ' +
+            cur.execute('GRANT "pg_monitor" TO '  +
                         datastore_ro_params.db_user.split("@")[0])
         print("Setting datastore permissions\n")
         print(sql)
