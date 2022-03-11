@@ -1,6 +1,8 @@
 CKAN Helm Chart
 ==========
 
+Test
+
 [![License][]][1][![Chat on Gitter][]][2]
 
 A Helm chart for CKAN
